@@ -1,0 +1,35 @@
+{
+  "name": "scraper-now",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "HTTP-first web scraping starter with Crawlee + Playwright and stealth escalation",
+  "scripts": {
+    "scrape": "node src/run.js",
+    "scrape:all": "node src/run.js",
+    "scrape:autoshqip": "node src/run.js autoshqip",
+    "scrape:merrjep": "node src/run.js merrjep",
+    "scrape:njoftime": "node src/run.js njoftime",
+    "scrape:gazeta": "node src/run.js gazetacelesi",
+    "scrape:autotrego": "node src/run.js autotrego",
+    "scrape:harnex": "node src/run.js harnex",
+    "scrape:autoconnect": "node src/run.js autoconnect",
+    "scrape:mirlir": "node src/run.js mirlir",
+    "scrape:autobox": "node src/run.js autobox",
+    "scrape:vetura": "node src/run.js veturaneshitje",
+    "scrape:instash": "node src/run.js instash",
+    "start": "node src/run.js",
+    "check": "node --check src/run.js"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "crawlee": "^3.16.0",
+    "dotenv": "^17.2.3",
+    "impit": "^0.9.2",
+    "patchright": "^1.57.0",
+    "playwright": "^1.58.2"
+  }
+}
