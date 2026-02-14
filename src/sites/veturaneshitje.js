@@ -185,41 +185,39 @@ export default {
 
   normalize(listing, detail) {
     const km = detail?.mileage ? Number(detail.mileage.replace(/[^\d]/g, '')) || null : null;
-    const seats = detail?.seats ? Number(detail.seats) || null : null;
     const price = listing.price ?? detail?.price ?? null;
     const currency = listing.currency ?? detail?.currency ?? null;
-    const negotiable = listing.negotiable || detail?.negotiable || false;
+    const images = detail?.images?.length ? detail.images : (listing.image ? [listing.image] : []);
 
     return {
       id: listing.id,
-      title: detail?.title || `${listing.brand || ''} ${listing.model || ''}`.trim() || null,
+      name: detail?.title || `${listing.brand || ''} ${listing.model || ''}`.trim() || null,
+      type: 'car',
       brand: listing.brand,
       model: listing.model,
       year: listing.year || (detail?.year ? Number(detail.year) : null),
       price,
+      discountPrice: listing.oldPrice || null,
       currency,
-      negotiable,
-      oldPrice: listing.oldPrice,
+      km,
+      mileageRaw: detail?.mileage || null,
       fuel: detail?.fuel || listing.fuel,
       transmission: detail?.transmission || listing.transmission,
-      engineCc: listing.engineCc,
-      km,
+      engine: listing.engineCc ? `${listing.engineCc}cc` : null,
       bodyType: detail?.bodyType || null,
       color: detail?.color || null,
-      seats,
-      customs: detail?.customs || listing.customs,
-      registration: detail?.registration || listing.registration,
+      interiorColor: null,
+      condition: null,
       description: detail?.description || null,
-      location: listing.location,
-      sellerName: detail?.sellerName || null,
-      sellerType: detail?.sellerType || null,
-      phone: detail?.phone || null,
+      categories: [],
+      sellerUsername: detail?.sellerName || null,
+      instagramLink: null,
+      thumbnail: listing.image || null,
+      images,
+      publishedAt: listing.date || null,
+      isSponsored: listing.isSponsored || false,
       url: listing.url,
-      images: detail?.images?.length ? detail.images : (listing.image ? [listing.image] : []),
-      features: detail?.features || null,
-      isSponsored: listing.isSponsored,
-      isRecommended: listing.isRecommended,
-      date: listing.date,
+      location: listing.location,
       scrapedAt: new Date().toISOString(),
     };
   },

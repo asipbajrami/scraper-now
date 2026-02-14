@@ -57,42 +57,42 @@ export default {
 
   normalize(raw, detail) {
     const v = detail || raw;
+    const brand = v.Vehicle_Manufacturer?.name || null;
+    const model = v.Vehicle_Model?.name || null;
+    const images = (v.Vehicle_Images || []).map((img) => `${IMAGE_BASE}${img.image}`);
+    const engineParts = [v.cubic_capacity ? `${v.cubic_capacity}cc` : null, v.horsepower ? `${v.horsepower}hp` : null].filter(Boolean);
+    const city = v.City?.name || null;
+    const country = v.Vehicle_Location?.name || null;
 
     return {
       id: v.id,
-      brand: v.Vehicle_Manufacturer?.name || null,
-      model: v.Vehicle_Model?.name || null,
+      name: [brand, model].filter(Boolean).join(' ') || null,
+      type: 'car',
+      brand,
+      model,
       year: v.year || null,
       price: v.Vehicle_Price?.[0]?.total ? Number(v.Vehicle_Price[0].total) : null,
+      discountPrice: null,
       currency: 'EUR',
       km: v.current_km || null,
+      mileageRaw: null,
       fuel: ENGINE_TYPES[v.engine_type] || null,
       transmission: TRANSMISSION_TYPES[v.transmission_type] || null,
-      horsepower: v.horsepower || null,
-      kw: v.kw || null,
-      cubicCapacity: v.cubic_capacity || null,
-      doors: v.doors || null,
-      seats: v.seats || null,
+      engine: engineParts.length ? engineParts.join(' ') : null,
+      bodyType: v.Vehicle_Shape?.name || null,
       color: v.Vehicle_Color?.name || null,
       interiorColor: v.interiorColor?.name || null,
-      shape: v.Vehicle_Shape?.name || null,
       condition: v.Vehicle_Condition?.name || null,
-      country: v.Vehicle_Location?.name || null,
-      city: v.City?.name || null,
-      emissionClass: v.emission_class || null,
-      weight: v.weight || null,
-      nrOfGears: v.nr_of_gears || null,
-      nrOfCylinders: v.nr_of_cylinders || null,
-      urbanConsumption: v.urban_consumption || null,
-      interurbanConsumption: v.interurban_consumption || null,
-      swapPossible: v.swap_possible ?? null,
-      isAvailable: v.is_available ?? null,
-      options: v.Vehicle_Options?.length ? v.Vehicle_Options.map((o) => o.name || o) : null,
-      manufactureCountry: v.Vehicle_Manufacture_Country?.name || null,
-      company: v.Company?.name || null,
+      description: null,
+      categories: [],
+      sellerUsername: v.Company?.name || null,
+      instagramLink: null,
+      thumbnail: images[0] || null,
+      images,
+      publishedAt: v.createdAt || null,
+      isSponsored: false,
       url: `https://www.harnex.io/vehicles/${v.id}`,
-      images: (v.Vehicle_Images || []).map((img) => `${IMAGE_BASE}${img.image}`),
-      createdAt: v.createdAt || null,
+      location: [city, country].filter(Boolean).join(', ') || null,
       scrapedAt: new Date().toISOString(),
     };
   },

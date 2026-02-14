@@ -126,32 +126,39 @@ export default {
   },
 
   normalize(raw) {
-    const parsed = parseFeatures(raw.features);
+    const parsed = parseFeatures(raw.features || []);
     const { price, currency } = parsePrice(raw.priceRaw);
+    const images = raw.image ? [raw.image] : [];
 
     return {
       id: raw.id ? Number(raw.id) : null,
-      title: raw.title,
+      name: raw.title || null,
+      type: 'car',
       brand: parsed.brand,
       model: parsed.model,
       year: parsed.year,
       price,
+      discountPrice: null,
       currency,
+      km: null,
+      mileageRaw: null,
       fuel: parsed.fuel,
       transmission: parsed.transmission,
-      power: parsed.power,
+      engine: parsed.power || null,
       bodyType: parsed.bodyType,
-      doors: parsed.doors,
       color: parsed.color,
+      interiorColor: null,
       condition: parsed.condition,
-      plate: parsed.plate,
-      location: raw.location,
-      phone: raw.phone,
-      date: raw.date,
+      description: null,
+      categories: [],
+      sellerUsername: null,
+      instagramLink: null,
+      thumbnail: raw.image || null,
+      images,
+      publishedAt: raw.date || null,
+      isSponsored: false,
       url: raw.url ? `${BASE_URL}${raw.url}` : null,
-      image: raw.image,
-      photoCount: raw.photoCount ? parseInt(raw.photoCount) || null : null,
-      featuresRaw: raw.features,
+      location: raw.location,
       scrapedAt: new Date().toISOString(),
     };
   },

@@ -365,6 +365,8 @@ export default {
       images,
       publishedAt: src.published_at || null,
       isSponsored: src.is_sponsored || false,
+      url: src.slug ? `https://instash.datafynow.ai/sq/product/${src.slug}` : null,
+      location: null,
       scrapedAt: new Date().toISOString(),
     };
   },

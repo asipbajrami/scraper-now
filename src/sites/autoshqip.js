@@ -62,42 +62,42 @@ export default {
     const raw = detail || listing;
     if (!raw) return null;
 
-    const normalized = {
+    const brand = raw.brand || null;
+    const model = raw.model || null;
+    const engineParts = [raw.e ? `${raw.e}cc` : null, raw.k ? `${raw.k}hp` : null].filter(Boolean);
+    const images = getImageUrls(raw);
+    const currencyRaw = raw.priceCurrency || '€';
+
+    return {
       id: raw.id,
-      brand: raw.brand,
-      model: raw.model,
-      generation: raw.generation || null,
-      trim: raw.trim || null,
-      year: raw.year,
-      km: raw.km,
+      name: [brand, model, raw.generation].filter(Boolean).join(' ') || null,
+      type: 'car',
+      brand,
+      model,
+      year: raw.year || null,
       price: raw.price ? Number(raw.price) : null,
-      currency: raw.priceCurrency || '€',
-      fuelTypeId: raw.fuelTypeId,
-      transmission: raw.transmission,
-      engineCc: raw.e ? Number(raw.e) : null,
-      engineType: raw.d || null,
-      hp: raw.k ? Number(raw.k) : null,
-      torqueNm: raw.l ? Number(raw.l) : null,
-      zeroToHundred: raw.m ? Number(raw.m) : null,
-      fuelConsumptionMixed: raw.a ? Number(raw.a) : null,
-      fuelConsumptionHighway: raw.b ? Number(raw.b) : null,
-      fuelConsumptionCity: raw.c ? Number(raw.c) : null,
-      emissionStandard: raw.j || null,
+      discountPrice: null,
+      currency: currencyRaw === '€' ? 'EUR' : currencyRaw,
+      km: raw.km || null,
+      mileageRaw: null,
+      fuel: raw.fuelTypeId || null,
+      transmission: raw.transmission || null,
+      engine: engineParts.length ? engineParts.join(' ') : null,
+      bodyType: null,
       color: raw.n || null,
+      interiorColor: null,
+      condition: raw.isSold ? 'Sold' : null,
+      description: null,
+      categories: [],
+      sellerUsername: null,
+      instagramLink: null,
+      thumbnail: images[0] || null,
+      images,
+      publishedAt: raw.postedTime || null,
+      isSponsored: false,
+      url: `https://autoshqip.com/car-details/${raw.id}`,
       location: raw.location || raw.o || null,
-      importTaxPaid: raw.importTaxPaid ?? raw.p ?? null,
-      hasDocumentsPaid: raw.hasDocumentsPaid ?? raw.q ?? null,
-      exchangeAllowed: raw.exchangeAllowed ?? raw.r ?? null,
-      isSold: raw.isSold || false,
-      postedTime: raw.postedTime,
-      postShortcode: raw.postShortcode,
-      numberOfPictures: raw.numberOfPictures || 0,
-      views: raw.s ?? raw.views ?? 0,
-      sourceId: raw.sourceId,
       scrapedAt: new Date().toISOString(),
     };
-
-    normalized.imageUrls = getImageUrls(normalized);
-    return normalized;
   },
 };
